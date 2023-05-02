@@ -4,9 +4,19 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 
+class ServidorSMTP:
+    def __init__(self, host, porta):
+        self.host = host
+        self.porta = porta
+    
+    @classmethod
+    def gmail(cls):
+        return cls("smtp.gmail.com",587)
+
 class EnviarEmail:
-    def __init__(self):
-        pass
+    def __init__(self, servidor):
+        self.host = servidor.host
+        self.porta = servidor.porta
 
     def definir_credenciais(self, email, senha):
         self.email = email
@@ -34,7 +44,7 @@ class EnviarEmail:
                 att.add_header("Content-Disposition","attachment",filename=str(os.path.basename(self.anexo["caminho"])))
                 msg.attach(att)
 
-        s = smtplib.SMTP('smtp.gmail.com: 587')
+        s = smtplib.SMTP(self.host, self.porta)
         s.starttls()
         s.login(self.email, self.senha)
         s.sendmail(msg['From'], [msg['To']], msg.as_string().encode('utf-8'))

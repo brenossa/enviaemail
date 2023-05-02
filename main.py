@@ -8,7 +8,7 @@ corpo_msg = {"assunto":input("Assunto: "),
              "anexo":{"tipo":input("Tipo do arquivo: "),
                       "caminho":input("Caminho do arquivo: ")} if input("Tem anexo? ").lower() in ["s","sim","tem"] else {}}
 
-tentativa = envia_email.EnviarEmail()
+tentativa = envia_email.EnviarEmail(envia_email.ServidorSMTP.gmail())
 tentativa.definir_credenciais(credenciais["email_app"], credenciais["senha_app"])
 tentativa.definir_destinatario(destinatario)
 tentativa.definir_mensagem(corpo_msg["assunto"], corpo_msg["mensagem"], corpo_msg["anexo"])
