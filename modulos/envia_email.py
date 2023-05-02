@@ -1,4 +1,5 @@
 import smtplib
+import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
@@ -30,7 +31,7 @@ class EnviarEmail:
         if self.anexo.get("caminho"):
             with open(self.anexo["caminho"], "rb") as anexo:
                 att = MIMEApplication(anexo.read(),_subtype=self.anexo["tipo"])
-                att.add_header("Content-Disposition","attachment",filename=str(anexo.buffer.name))
+                att.add_header("Content-Disposition","attachment",filename=str(os.path.basename(self.anexo["caminho"])))
                 msg.attach(att)
 
         s = smtplib.SMTP('smtp.gmail.com: 587')
